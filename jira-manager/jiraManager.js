@@ -1,5 +1,5 @@
-const {createIssue,getIssue} = require('./jira-ticket-creation/index');
-const {JiraTicketBuilder} = require('./jira-ticket-creation/JiraTicketBuilder');
+const {createIssue,getIssue} = require('../jira-ticket-creation/index');
+const {JiraTicketBuilder} = require('../jira-ticket-creation/JiraTicketBuilder');
 // make this a singleton class
 
 class JiraManager {
