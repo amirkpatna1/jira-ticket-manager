@@ -82,9 +82,9 @@ class JiraTicketBuilder {
     return this;
   }
 
-  getResult() {
+  build() {
     return JSON.stringify(this.body);
   }
 }
 
-export { JiraTicketBuilder };
+module.exports = { JiraTicketBuilder };

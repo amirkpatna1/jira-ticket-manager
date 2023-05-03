@@ -1,8 +1,9 @@
-import axios from 'axios';
+// import axios from 'axios';
+const axios = require('axios');
 
 const createIssue = async (ticketConfigs, jiraManagerInstance) => {
   console.log(jiraManagerInstance);
-  const { emailId, apiKey } = jiraManagerInstance;
+  const {domain, emailId, apiKey } = jiraManagerInstance;
   console.log(domain,emailId, apiKey);
   const configForPostReq = {
     headers: {
@@ -13,22 +14,20 @@ const createIssue = async (ticketConfigs, jiraManagerInstance) => {
       Accept: 'application/json',
     },
   };
-  console.log(ticketConfigs);
-  console.log(emailId);
-  console.log(apiKey);
-    axios
-      .post(`https://${domain}.atlassian.net/rest/api/3/issue`, ticketConfigs, configForPostReq)
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.error(error.response);
-      });
+    try {
+      const res = axios
+      .post(`https://${domain}.atlassian.net/rest/api/3/issue`, ticketConfigs, configForPostReq);
+      return res;
+    } catch (error) {
+      console.error(error);
+    }
+      
 };
 
-const getIssue = (issueId, jiraManagerInstance) => {
+const getIssue = async (issueId, jiraManagerInstance) => {
   const {domain, apiKey, emailId} = jiraManagerInstance;
-  axios
+  try {
+    const res = await axios
     .get(`https://${domain}.atlassian.net/rest/api/3/issue/${issueId}`, {
       headers: {
         Authorization: `Basic ${Buffer.from(
@@ -37,14 +36,10 @@ const getIssue = (issueId, jiraManagerInstance) => {
         'Content-Type': 'application/json',
       },
     })
-    .then((response) => {
-      // handle success
-      console.log(response.data);
-    })
-    .catch((error) => {
-      // handle error
-      console.log(error);
-    });
+    return res;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-export { createIssue, getIssue };
+module.exports = { createIssue, getIssue };

@@ -1,9 +1,3 @@
-import { JiraManager } from './jiraManager';
+const {JiraManager} = require('./jiraManager');
 
-const a = new JiraManager('amir', 'amirkhan', 'apiKey');
-const configs = a.createTicketConfigs();
-a.createJiraTicket(configs);
-
-// modulesToExport = { JiraManager };
-
-module.exports = { JiraManager };
+module.exports = JiraManager;

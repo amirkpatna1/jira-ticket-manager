@@ -1,6 +1,5 @@
-// import { createIssue } from '../jira-ticket-creation';
-// import { JiraTicketBuilder } from '../jira-ticket-creation/create-ticket/createTicketConfiguration';
-
+const {createIssue,getIssue} = require('./jira-ticket-creation/index');
+const {JiraTicketBuilder} = require('./jira-ticket-creation/JiraTicketBuilder');
 // make this a singleton class
 
 class JiraManager {
@@ -18,19 +17,28 @@ class JiraManager {
     if (!apiKey) {
       throw new Error('Api key cannot be empty');
     }
+    this.domain = domain;
     this.emailId = emailId;
     this.apiKey = apiKey;
     JiraManager.jiraManagerInstance = this;
   }
 
   createTicketConfigs() {
-    // return new JiraTicketBuilder();
+    return new JiraTicketBuilder();
   }
-  async createJiraTicket(ticketConfigs) {
+  async createJiraTicket(ticketConfigs = JiraTicketBuilder) {
     try {
-      // await createIssue(ticketConfigs, this);
+      await createIssue(ticketConfigs, this);
     } catch (error) {}
+  }
+  async getJiraIssue(issueId) {
+    try {
+      const res = await getIssue(issueId,this);
+      return res;
+    } catch(error) {
+      console.error(error);
+    }
   }
 }
 
-export { JiraManager };
+module.exports =  { JiraManager };
